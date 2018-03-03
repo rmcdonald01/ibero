@@ -12,7 +12,7 @@ class RestartController extends Controller
 {
     public function index(Request $request, Response $response, $args)
     {
-        return $this->c->view->render($response, 'home/index.twig', [
+        return $this->c->view->render($response, 'ap/index.twig', [
             'appName' => $this->c->settings['app']['name'],
         ]);
     }

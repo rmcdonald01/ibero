@@ -1,5 +1,24 @@
 {% extends 'app.twig' %}
 
 {% block content %}
-    Reboot AP -  {{ appName }}!
+    <div class="row">
+
+        <div class="col-md-6">
+                <form class="form-inline" method="POST" action="">
+                    <label class="sr-only" for="inlineFormInputName2">Name</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Enter IP" name="ip_address">
+
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </form>
+        </div>
+                
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+        <h4>Device Status: <?php echo $deviceStatus ?></h4>
+        </div>
+    </div>
+
+
 {% endblock %}
