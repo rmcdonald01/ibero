@@ -21,7 +21,12 @@ class RestartController extends Controller
 
     public function reboot(Request $request, Response $response)
     {
-        $return =  $request->getParam('ip');
+        $ip =  $request->getParam('ip');
+       $client = new TelnetClient;
+       $client->ping();
+       $client->connect();
+       $client->login($username, $password);
+
         var_dump($return);
     }
 }
