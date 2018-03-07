@@ -5,3 +5,4 @@ use App\Controllers\RestartController;
 
 $app->get('/', HomeController::class . ':index');
 $app->get('/ap', RestartController::class . ':index');
+$app->post('/ap', RestartController::class . ':reboot');

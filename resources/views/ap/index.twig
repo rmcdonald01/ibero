@@ -2,13 +2,15 @@
 
 {% block content %}
     <div class="row">
-
         <div class="col-md-6">
-                <form class="form-inline" method="POST" action="">
-                    <label class="sr-only" for="inlineFormInputName2">Name</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Enter IP" name="ip_address">
 
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                <form class="form" method="POST" action="" id="reboot_room">
+                    <div class="form-group">
+                    <label for="room">Select Room</label>
+                    <select id="room" name="room" class="form-control">
+                    </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-1">Submit</button>
                 </form>
         </div>
                 
@@ -20,5 +22,57 @@
         </div>
     </div>
 
+
+{% endblock %}
+
+
+{% block script %} 
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+    var url = "../storage/ip/suites.json";
+    var data = 'test';
+    var rooms = [];
+    $.ajax({
+        dataType: "json",
+        url: url,
+        data: data,
+        success: function (result) {
+            rooms = result;
+            console.log(result);
+             $('#room').select2({
+                 data: rooms
+             });
+
+        }
+        });
+
+
+$(document).on('submit', '#reboot_room', function (e){
+    e.preventDefault();
+    var room =  $('#room').val();
+    console.log(room);
+    rebootRoom(room);
+});
+
+function rebootRoom(ip){
+        $.ajax({
+        dataType: "json",
+        url: 'ap',
+        method: "POST",
+        data: {
+            'ip' : ip
+        },
+        success: function (result) {
+            console.log(result);
+        }
+        });
+}
+
+})
+
+</script>
 
 {% endblock %}
