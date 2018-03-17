@@ -3,11 +3,13 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Helpers\Telnet\TelnetClient;
 use Psr\Http\Message\{
     ServerRequestInterface as Request,
     ResponseInterface as Response
 };
-use App\Controllers\Traits\TelnetClient;
+
+use Exception;
 
 class RestartController extends Controller
 {
@@ -21,11 +23,22 @@ class RestartController extends Controller
 
     public function reboot(Request $request, Response $response)
     {
-        $ip =  $request->getParam('ip');
+        
+       $ip =  $request->getParam('ip');
        $client = new TelnetClient;
-       $client->ping();
-       $client->connect();
-       $client->login($username, $password);
+      
+       if( @$client->ping($ip)){
+           try {
+            $client->connect($ip);
+            $client->login($username='admin', $password='1ber0w1f1');
+           }catch(Exception $e){
+            return $response->withJson(['message' => $e->getMessage(), 'ip' => $ip]);
+           }
+        
+       }else {
+        return $response->withJson(['message' => 'not online', 'ip' => $ip]);
+       }
+
 
         var_dump($return);
     }
