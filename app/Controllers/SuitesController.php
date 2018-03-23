@@ -11,12 +11,20 @@ use Psr\Http\Message\{
 
 use Exception;
 
-class RestartController extends Controller
+class SuitesController extends Controller
 {
+    
+    protected $telnetClient;
+    protected $c;
+    public function __construct($c)
+    {
+        $this->telnetClient = new TelnetClient;
+        $this->c = $c;
+    }
     
     public function index(Request $request, Response $response, $args)
     {
-        return $this->c->view->render($response, 'ap/index.twig', [
+        return $this->c->view->render($response, 'ap/suites/index.twig', [
             'appName' => $this->c->settings['app']['name'],
         ]);
     }
@@ -25,9 +33,9 @@ class RestartController extends Controller
     {
         
        $ip =  $request->getParam('ip');
-       $client = new TelnetClient;
+       //$client = new TelnetClient;
       
-       if( @$client->ping($ip)){
+       if( @$this->telnetClient->ping($ip)){
            try {
             $client->connect($ip);
             $client->login($username='admin', $password='1ber0w1f1');
@@ -41,5 +49,11 @@ class RestartController extends Controller
 
 
         var_dump($return);
+    }
+
+    public function pingAp(Request $request, Response $response )
+    {
+        echo $result = $this->telnetClient->ping('127.0.0.1');
+        var_dump(_);
     }
 }
