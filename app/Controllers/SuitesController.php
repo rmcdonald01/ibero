@@ -16,6 +16,7 @@ class SuitesController extends Controller
     
     protected $telnetClient;
     protected $c;
+
     public function __construct($c)
     {
         $this->telnetClient = new TelnetClient;
@@ -52,8 +53,8 @@ class SuitesController extends Controller
     }
 
     public function pingAp(Request $request, Response $response )
-    {
-        echo $result = $this->telnetClient->ping('127.0.0.1');
-        var_dump(_);
+    {   $ip =  $request->getParam('ip');
+        echo $result = $this->telnetClient->ping('www.google.com', 80, 3);
+       // var_dump($result);
     }
 }

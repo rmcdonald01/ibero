@@ -342,5 +342,7 @@ class TelnetClient {
          } else {
             return false;
          } 
+
+         var_dump($fp);
     }
 }

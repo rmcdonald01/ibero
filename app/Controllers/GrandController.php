@@ -14,10 +14,12 @@ use Exception;
 class GrandController extends Controller
 {
     protected $telnetClient;
+    protected $c;
 
-    public function __construct(Type $var = null)
+    public function __construct($c)
     {
         $this->telnetClient = new TelnetClient;
+        $this->c = $c;
     }
 
     public function index(Request $request, Response $response, $args)

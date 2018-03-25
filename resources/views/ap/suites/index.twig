@@ -42,7 +42,7 @@ $(document).ready(function(){
         data: data,
         success: function (result) {
             rooms = result;
-            console.log(result);
+            //console.log(result);
              $('#room').select2({
                  data: rooms
              });
@@ -55,19 +55,27 @@ $(document).on('click', '#reboot_room', function (e){
     e.preventDefault();
     var room =  $('#room').val();
     console.log(room);
-    rebootRoom(room);
+    ping().then(function (result){
+        console.log('Ping completed');
+        if(result){
+            console.log(result);
+        }
+    });
+    
+    
 });
 
 
 $(document).on('click', '#ping', function (e){
     e.preventDefault();
     var room =  $('#room').val();
-    console.log(room);
+    //console.log(room);
     ping(room);
-    //rebootRoom(room);
+    
 });
 
 function rebootRoom(ip){
+    return new Promise(function(result, reject,){
         $.ajax({
         dataType: "json",
         url: '{{ path_for("reboot.suites.ap") }}',
@@ -79,9 +87,12 @@ function rebootRoom(ip){
             console.log(result);
         }
         });
+    });
 }
 
 function ping(ip){
+    return new Promise(function(resolve, reject){
+        var pingStatus = false; 
         $.ajax({
         dataType: "json",
         url: '{{ path_for("ping.suites.ap") }}',
@@ -91,9 +102,40 @@ function ping(ip){
         },
         success: function (result) {
             console.log(result);
-        }
+            resolve(result);
+        },
+        err: function(err){
+            reject(err)
+        } 
         });
+    })
+        
+        console.log(pingStatus);
+        return pingStatus;
 }
+
+
+
+function functABC(ip) {
+   // ip
+  return new Promise(function(resolve, reject) {
+    $.ajax({
+      url: '{{ path_for("ping.suites.ap") }}',
+      data: {
+            'ip' : ip
+        },
+        method: "POST",
+      success: function(data) {
+        resolve(data) // Resolve promise and go to then()
+      },
+      error: function(err) {
+        reject(err) // Reject the promise and go to catch()
+      }
+    })
+  })
+}
+
+
 
 })
 
