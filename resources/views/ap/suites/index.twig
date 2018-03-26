@@ -59,6 +59,7 @@ $(document).on('click', '#reboot_room', function (e){
         console.log('Ping completed');
         if(result){
             console.log(result);
+            return rebootRoom(rebootRoom);
         }
     });
     
